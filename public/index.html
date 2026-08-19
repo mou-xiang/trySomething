@@ -10,5 +10,17 @@
     <h1>Welcome to Our Website</h1>
 
     <p>This is a simple welcome page for our website.</p>
+
+    <p>访问次数：<span id="visits">-</span></p>
+
+    <h2>留言板</h2>
+    <form id="guestbook-form">
+      <input id="name" placeholder="你的昵称" required>
+      <input id="message" placeholder="说点什么..." required>
+      <button type="submit">发送</button>
+    </form>
+    <ul id="messages"></ul>
+
+<script src="/app.js"></script>
   </body>
 </html>

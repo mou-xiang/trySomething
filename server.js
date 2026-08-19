@@ -7,6 +7,14 @@ const fs = require("node:fs"); // 引入 Node 内置的 fs 模块，用于文件
 
 const PORT = 8080; // 服务器监听的端口（0~65535 中的一个）
 
+//启动时读取store.json
+let store = JSON.parse(fs.readFileSync("./data/store.json", "utf-8"));
+
+//保存json函数
+function saveStore() {
+  fs.writeFileSync("./data/store.json", JSON.stringify(store, null, 2));
+}
+
 function serverFile(path, type, res) {
   fs.readFile(path, "utf-8", (err, data) => {
       if (err) {
@@ -32,11 +40,46 @@ const server = http.createServer((req, res) => {
   res.statusCode = 200;
 
   if (req.url === "/") {
+    store.visits = store.visits + 1; //GET '/' visits + 1
+    saveStore();
     serverFile("./public/index.html", "text/html", res);
   } else if (req.url === "/about") {
     serverFile("./public/about.html", "text/html", res)
   } else if (req.url === "/style.css") {
-    serverFile("./public/style.css", "text/css", res)
+    serverFile("./public/style.css", "text/css", res);
+  } else if (req.url === "/app.js") {
+    serverFile("./public/app.js", "text/javascript", res);
+  }else if (req.url === "/api/visits") {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.end(JSON.stringify({ visits: store.visits }));
+  } else if (req.url === "/api/messages" && req.method === "POST") {
+    let body = "";
+    req.on("data", chunk => {body += chunk});
+    req.on("end", () => {
+      let parsed;
+      try {
+        parsed = JSON.parse(body);
+      } catch(e) {
+        res.statusCode = 400;                             // ⑤ 解析失败 → 400
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
+        res.end(JSON.stringify({ error: "请求体不是合法 JSON" }));
+        return;
+      }
+      store.messages.push({
+        name: parsed.name,
+        message: parsed.message,
+        time: new Date().toISOString()
+      });
+      saveStore();
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.end(JSON.stringify({ messages: store.messages}));
+    });
+  } else if (req.url === "/api/messages") {      // ← 新加的 GET 分支，放这里
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.end(JSON.stringify({ messages: store.messages }));
   } else {
     res.statusCode = 404; // 设置响应状态码为 404（未找到）
     res.setHeader("Content-Type", "text/html; charset=utf-8")
