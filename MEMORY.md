@@ -50,7 +50,7 @@
 
 git 历史：614185b → 192b2b1 → d00f59c → d06a06b → 952e33f → 8995756 → 6d16b9f（分支 main）
 - **GitHub 仓库**：https://github.com/mou-xiang/trySomething（已推送，SSH 认证可用，账号 mou-xiang）
-- **沙箱内 git 推送到 GitHub 的坑**：git 自带的 MSYS ssh 在沙箱里无法建信号管道 → 已用仓库级配置 `git config core.sshCommand "C:\Windows\System32\OpenSSH\ssh.exe"` 解决（原生 OpenSSH 可正常工作）
+- **沙箱内 git 推送到 GitHub 的坑**：git 自带的 MSYS ssh 在沙箱里无法建信号管道 → 已用仓库级配置 `git config core.sshCommand 'C:/Windows/System32/OpenSSH/ssh.exe'` 解决（原生 OpenSSH 可正常工作）
 - 本地 git 代理配置指向 127.0.0.1:7897（用户自己的代理，未开时会连不上 HTTPS；SSH 不受影响）
 
 ---
