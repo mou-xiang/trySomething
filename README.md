@@ -24,6 +24,35 @@ data/store.json    # 数据持久化（M2 起）
 PLAN.md            # 里程碑打卡清单
 ```
 
+## 线上部署（已上线 https://kokoroboto.online）
+
+- 服务器：腾讯云香港轻量（Debian），用户 sun，pm2 守护
+- 证书：certbot，/etc/letsencrypt/live/kokoroboto.online/（2026-11-19 到期）
+
+### 更新代码上线（4 步曲）
+
+```bash
+# 本地：
+git add -A && git commit -m "改了什么" && git push
+# 服务器：
+cd ~/trySomething && git pull
+pm2 restart trysomething
+```
+
+### 查看日志
+
+```bash
+pm2 logs trysomething              # 实时滚动
+pm2 logs trysomething --lines 50 --nostream   # 看最近 50 行
+# 日志文件位置：
+# ~/.pm2/logs/trysomething-out.log   （访问日志）
+# ~/.pm2/logs/trysomething-error.log（错误日志）
+```
+
+> ⚠️ 证书续期后（约 2026-11-19）需重跑：
+> `sudo chmod 755 /etc/letsencrypt/live /etc/letsencrypt/archive`
+> `sudo chmod 644 /etc/letsencrypt/archive/kokoroboto.online/privkey*.pem`
+
 ## 里程碑进度
 
 见 [PLAN.md](PLAN.md)。
