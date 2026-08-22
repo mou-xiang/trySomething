@@ -45,7 +45,9 @@ const handler = (req, res) => {
     saveStore();
     serverFile("./public/index.html", "text/html", res);
   } else if (req.url === "/about") {
-    serverFile("./public/about.html", "text/html", res)
+    serverFile("./public/about.html", "text/html", res);
+  } else if (req.url === "/block") {
+    serverFile("./public/block.html", "text/html", res);
   } else if (req.url === "/style.css") {
     serverFile("./public/style.css", "text/css", res);
   } else if (req.url === "/app.js") {
