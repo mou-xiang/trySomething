@@ -44,7 +44,8 @@
 | M2 | ✅ | API 与数据：访客计数 + 留言板 + JSON 持久化，12 项测试全绿（d00f59c） |
 | 复习 | ✅ | M2 六大概念自测 6/6 全对（d06a06b） |
 | **M3** | ✅ | 网络理论已学（DNS/TCP/HTTP 实验）；**已购腾讯云香港轻量服务器（Debian）+ 域名已买且实名通过**（2026-08-20） |
-| M4 | 🔄 即将开始 | 部署：SSH → 装 Node → 防火墙 → pm2 → 域名 A 记录 → HTTPS 绿锁 |
+| M4 | ✅ | **https://kokoroboto.online 上线（2026-08-21）**：Node v22.23.2 + pm2（sun 用户）+ certbot 证书 + HTTP→HTTPS 302 跳转，外网 80/443 可达 |
+| M5 | 🔄 进行中 | 看真实访问日志、公测发朋友、证书续期备忘（2026-11-19 前后需重新 chmod 私钥） |
 | M4 | ⏳ | 部署：SSH → 装 Node → 防火墙 → pm2 → 域名 A 记录 → HTTPS 绿锁 |
 | M5 | ⏳ | 上线打磨：强制 HTTPS、看真实访问日志、公测发朋友 |
 
@@ -90,6 +91,8 @@ trySomething/
 1. **【M4 即将开始】服务器实况**：腾讯云香港轻量（Debian）、域名已买+实名已过（2026-08-20）
 2. **M4 部署细节**：先打快照 → SSH 登录 → 改强密码 → apt 装 Node 22 → 项目代码上传（推荐推 GitHub 后 git clone，或 scp）→ pm2 守护 → 腾讯云防火墙只开 80/443/22 → A 记录 → 免费 DV 证书 → 设时区 Asia/Shanghai
 3. **PLAN.md 两个固定编程时段未填**（用户多次被提醒，仍未填）
+4. **上线信息**：服务器 43.135.32.65（腾讯云香港，Debian，用户 sun），域名 kokoroboto.online（DNSPod），证书 /etc/letsencrypt/live/kokoroboto.online/（2026-11-19 到期）
+5. **部署踩坑记录**：私钥目录 700 root 导致 EACCES → 需 chmod 755 live/archive 目录；sudo pm2 找不到进程（pm2 按用户隔离）；setcap 解决非 root 绑 80/443
 4. **PLAN.md 两个固定编程时段未填**（用户多次被提醒，仍未填）
 5. M4 部署细节：轻量服务器控制台防火墙开 80/443/22、SSH 登录、nvm 装 Node 22、pm2 守护（`npm i -g pm2`）、域名控制台加 A 记录、免费 DV 证书或 certbot
 
